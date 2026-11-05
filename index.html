@@ -1,1 +1,216 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carousel Studio - استوديو الكاروسيل</title>
+  <!-- مكتبة Tailwind CSS للتنسيق -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- مكتبة html2canvas لتحويل HTML إلى صور للتحميل -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <!-- خط tajawal البرمجي -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background-color: #0f0f11;
+      color: #e4e4e7;
+    }
+    /* الثيمات البصرية للشرائح */
+    .theme-mint {
+      background-color: #18181b;
+      color: #ffffff;
+      border: 1px solid #27272a;
+    }
+    .theme-mint .accent { color: #10b981; }
+    .theme-mint .bg-accent { background-color: #10b981; color: #000; }
+
+    .theme-white {
+      background-color: #ffffff;
+      color: #09090b;
+      border: 1px solid #e4e4e7;
+    }
+    .theme-white .accent { color: #2563eb; }
+    .theme-white .bg-accent { background-color: #09090b; color: #fff; }
+
+    .theme-navy {
+      background-color: #0b192c;
+      color: #e2e8f0;
+      border: 1px solid #1e3a8a;
+    }
+    .theme-navy .accent { color: #38bdf8; }
+    .theme-navy .bg-accent { background-color: #38bdf8; color: #0f172a; }
+
+    .theme-neon {
+      background-color: #141414;
+      color: #ffffff;
+      border: 1px solid #333333;
+    }
+    .theme-neon .accent { color: #ccff00; }
+    .theme-neon .bg-accent { background-color: #ccff00; color: #000; }
+  </style>
+</head>
+<body class="p-4 md:p-8 max-w-xl mx-auto">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-6 border-b border-zinc-800 pb-4">
+    <span class="bg-emerald-500/10 text-emerald-400 text-xs font-bold px-2.5 py-1 rounded-md border border-emerald-500/20">PRO 1.0</span>
+    <h1 class="text-xl font-black tracking-wider text-white">CAROUSEL STUDIO</h1>
+  </div>
+
+  <!-- Form Controls -->
+  <div class="space-y-4">
+    
+    <!-- Input 1: Handle -->
+    <div class="bg-zinc-900/60 p-4 rounded-xl border border-zinc-800/80">
+      <label class="block text-xs font-bold text-zinc-400 mb-2">معرّف الحساب (يظهر أعلى وأسفل التصميم)</label>
+      <input type="text" id="handleInput" value="@Ammar.Albostani.art.design" 
+        class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-sm text-center text-zinc-200 focus:outline-none focus:border-emerald-500 transition">
+    </div>
+
+    <!-- Input 2: Content -->
+    <div class="bg-zinc-900/60 p-4 rounded-xl border border-zinc-800/80">
+      <label class="block text-xs font-bold text-zinc-400 mb-2">محتوى الكاروسيل</label>
+      <textarea id="contentText" rows="6" 
+        class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-sm text-zinc-200 focus:outline-none focus:border-emerald-500 transition leading-relaxed"
+        placeholder="اكتب المحتوى هنا..."></textarea>
+      <p class="text-[11px] text-zinc-500 mt-2 flex items-center gap-1">
+        💡 اترك سطراً فارغاً (Enter مرتين) لفصل كل شريحة عن الأخرى. الشريحة الأولى تعتبر غلافاً تلقائياً.
+      </p>
+    </div>
+
+    <!-- Input 3: Styles -->
+    <div class="bg-zinc-900/60 p-4 rounded-xl border border-zinc-800/80">
+      <label class="block text-xs font-bold text-zinc-400 mb-3">اختر الثيم البصري (Style)</label>
+      <div class="grid grid-cols-2 gap-2 text-sm font-bold">
+        <button onclick="setTheme('theme-mint')" id="btn-theme-mint" class="p-3 rounded-lg border border-emerald-500 bg-zinc-900 text-white flex items-center justify-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-emerald-500"></span> فحمي ونعناعي
+        </button>
+        <button onclick="setTheme('theme-white')" id="btn-theme-white" class="p-3 rounded-lg border border-zinc-700 bg-white text-black flex items-center justify-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-black"></span> سويسري أبيض
+        </button>
+        <button onclick="setTheme('theme-navy')" id="btn-theme-navy" class="p-3 rounded-lg border border-zinc-800 bg-[#0b192c] text-white flex items-center justify-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-sky-400"></span> كحلي عميق
+        </button>
+        <button onclick="setTheme('theme-neon')" id="btn-theme-neon" class="p-3 rounded-lg border border-zinc-800 bg-zinc-900 text-white flex items-center justify-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-[#ccff00]"></span> نيون جريء
+        </button>
+      </div>
+    </div>
+
+    <!-- Action Button -->
+    <button onclick="renderSlides()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-black font-black py-3.5 rounded-xl transition flex items-center justify-center gap-2 text-base shadow-lg shadow-emerald-500/10">
+      تحديث وتوليد الشرائح ⚡
+    </button>
+  </div>
+
+  <!-- Live Preview Section -->
+  <div class="mt-8">
+    <div class="flex items-center justify-between mb-4">
+      <span class="text-xs text-zinc-400">المعاينة المباشرة (اسحب لليمين واليسار)</span>
+      <span id="slidesCount" class="text-xs font-bold text-emerald-400">0 شرائح</span>
+    </div>
+
+    <!-- Carousel Container -->
+    <div id="slidesContainer" class="flex gap-4 overflow-x-auto pb-6 snap-x snap-mandatory">
+      <!-- الشرائح تتولد هنا عبر الجافاسكريبت -->
+    </div>
+  </div>
+
+  <!-- JavaScript Logic -->
+  <script>
+    // النص الافتراضي للمعاينة
+    const defaultText = `5 قواعد ذهبية لتصميم هوية بصرية لا تُنسى في انستغرام
+
+البساطة هي القمة: لا تزدحم الشاشة بالعناصر، اترك مساحة فارغة تريح عين المشاهد وتوجه تركيزه نحو الرسالة الأساسية.
+
+التايبوغرافي هو البطل: الخط الجيد يعنيك عن 80% من الزخارف البصرية، اعتمد خطاً هندسياً واضحاً ومقروءاً على شاشات الموبايل.
+
+إذا أعجبك المحتوى، احفظ البوست للرجوع إليه لاحقاً وشاركه مع صديق مهتم!`;
+
+    let currentTheme = 'theme-mint';
+
+    // تعيين النص الافتراضي عند فتح الصفحة
+    document.getElementById('contentText').value = defaultText;
+
+    function setTheme(themeClass) {
+      currentTheme = themeClass;
+      renderSlides();
+    }
+
+    function renderSlides() {
+      const handle = document.getElementById('handleInput').value || '@Username';
+      const rawText = document.getElementById('contentText').value;
+      const container = document.getElementById('slidesContainer');
+      
+      // تفكيك المنطق: تقسيم النص بناءً على السطر الفارغ (\n\s*\n)
+      const slidesData = rawText.split(/\n\s*\n/).filter(slide => slide.trim() !== '');
+      
+      document.getElementById('slidesCount').innerText = `${slidesData.length} شرائح`;
+      container.innerHTML = '';
+
+      slidesData.forEach((slideContent, index) => {
+        const isCover = index === 0;
+        const totalSlides = slidesData.length;
+        
+        // إنشاء كارت الشريحة
+        const slideWrapper = document.createElement('div');
+        slideWrapper.className = 'flex-shrink-0 snap-center flex flex-col items-center gap-3';
+        
+        slideWrapper.innerHTML = `
+          <!-- تصميم الشريحة مربعة الأبعاد (1:1 Aspect Ratio) -->
+          <div id="slide-${index}" class="${currentTheme} w-[300px] h-[300px] p-6 rounded-2xl flex flex-col justify-between shadow-2xl relative overflow-hidden transition-all duration-300">
+            
+            <!-- Header الشريحة -->
+            <div class="flex justify-between items-center text-[10px] font-bold opacity-75">
+              <span>${handle}</span>
+              <span class="border-b-2 border-current pb-[1px]">${index + 1}/${totalSlides}</span>
+            </div>
+
+            <!-- محتوى الشريحة -->
+            <div class="my-auto">
+              ${isCover ? `<span class="accent text-[10px] font-bold block mb-1">اسحب للقراءة ➔</span>` : ''}
+              <p class="${isCover ? 'text-lg font-extrabold leading-snug' : 'text-xs leading-relaxed opacity-90'} whitespace-pre-line">
+                ${slideContent}
+              </p>
+            </div>
+
+            <!-- Footer الشريحة -->
+            <div class="flex justify-between items-center text-[9px] opacity-50 font-bold">
+              <span>${isCover ? '• اسحب لليصار لمتابعة' : ''}</span>
+              <span>Carousel Studio</span>
+            </div>
+          </div>
+
+          <!-- زر تحميل الشريحة كصورة -->
+          <button onclick="downloadSlide(${index})" class="w-full bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 text-xs font-bold py-2 px-4 rounded-xl flex items-center justify-center gap-2 transition">
+            تحميل الشريحة (${index + 1}) 📥
+          </button>
+        `;
+
+        container.appendChild(slideWrapper);
+      });
+    }
+
+    // دالة لتحويل عنصر HTML إلى صورة وتحميله
+    function downloadSlide(index) {
+      const slideElement = document.getElementById(`slide-${index}`);
+      
+      html2canvas(slideElement, {
+        scale: 3, // دقة عالية للتصدير
+        useCORS: true
+      }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `carousel-slide-${index + 1}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+
+    // تشغيل التوليد أول مرة عند تحميل الصفحة
+    renderSlides();
+  </script>
+</body>
+</html>
 
