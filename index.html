@@ -204,7 +204,11 @@
       const contentHTML = editor.innerHTML;
       
       // تفكيك الشرائح بحسب التقسيمات
-      const rawSlides = contentHTML.split(/<div><br><\/div>|<div><div>|<br\s*\/?>\s*<br\s*\/?>|\n\s*\n/gi);
+      
+      const tempDiv = document.createElement('div');
+tempDiv.innerHTML = contentHTML;
+const rawSlides = tempDiv.innerHTML.split(/<div><br\b[^>]*>|<\/div><div>|<br\s*\/?>\s*<br\s*\/?>/gi);
+
       const slidesData = rawSlides.filter(slide => slide.replace(/<[^>]*>/g, '').trim() !== '');
 
       document.getElementById('slidesCount').innerText = `${slidesData.length} شرائح`;
