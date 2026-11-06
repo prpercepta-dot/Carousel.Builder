@@ -254,14 +254,16 @@ const rawSlides = tempDiv.innerHTML.split(/<div><br\b[^>]*>|<\/div><div>|<br\s*\
       });
     }
 
-        function downloadSlide(index) {
+        
+    function downloadSlide(index) {
       const slideElement = document.getElementById(`slide-${index}`);
-      
+      // التقاط لون الخلفية الفعلي للشريحة لمنع أي إطار أبيض
+      const computedBg = window.getComputedStyle(slideElement).backgroundColor;
+
       html2canvas(slideElement, { 
         scale: 3, 
         useCORS: true,
-        backgroundColor: null, // إلغاء أي خلفية افتراضية لتجنب الإطار الأبيض
-        ignoreElements: (element) => element.classList.contains('ignore-pdf')
+        backgroundColor: computedBg 
       }).then(canvas => {
         const link = document.createElement('a');
         link.download = `slide-${index + 1}.png`;
@@ -269,7 +271,6 @@ const rawSlides = tempDiv.innerHTML.split(/<div><br\b[^>]*>|<\/div><div>|<br\s*\
         link.click();
       });
     }
-
 
     // التوليد الأولي
     renderSlides();
