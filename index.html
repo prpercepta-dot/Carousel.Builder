@@ -3,144 +3,165 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Percepta Carousel Builder</title>
+  <title>Carousel Studio - المحرر الاحترافي</title>
+  
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- html2canvas -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   
-  <!-- استيراد خطوط عربية متنوعة من Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&family=Cairo:wght@400;700;900&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+  <!-- استيراد خطوط عربية وأجنبية احترافية -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&family=IBM+Plex+Sans+Arabic:wght@400;600;700&family=Inter:wght@400;600;800&family=Playfair+Display:ital,wght@0,600;1,400&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
   
   <style>
     body {
-      font-family: 'Tajawal', sans-serif;
-      background-color: #0b0f17;
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      background-color: #0f1115;
       color: #e2e8f0;
     }
 
-    /* خطوط ديناميكية */
-    .font-tajawal { font-family: 'Tajawal', sans-serif; }
+    /* الخطوط */
+    .font-ibm { font-family: 'IBM Plex Sans Arabic', sans-serif; }
     .font-cairo { font-family: 'Cairo', sans-serif; }
-    .font-almarai { font-family: 'Almarai', sans-serif; }
+    .font-tajawal { font-family: 'Tajawal', sans-serif; }
+    .font-inter { font-family: 'Inter', sans-serif; }
+    .font-playfair { font-family: 'Playfair Display', serif; }
 
-    /* الثيمات والستايلات البصرية */
-    .theme-cyber {
-      background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
-      color: #ffffff;
-      border: 1px solid #30363d;
+    /* ستايلات تايبوغرافي بشرية (Editorial Styles) */
+    .style-swiss {
+      background-color: #ffffff;
+      color: #111111;
+      border: 1px solid #e5e5e5;
     }
-    .theme-cyber .accent { color: #6366f1; }
-    .theme-cyber .badge { background: #6366f1; color: #fff; }
+    .style-swiss .handle-tag { color: #666666; font-weight: 600; }
+    .style-swiss .divider { border-color: #eeeeee; }
 
-    .theme-minimal {
-      background-color: #fafafa;
-      color: #111827;
-      border: 1px solid #e5e7eb;
+    .style-monochrome {
+      background-color: #121212;
+      color: #f5f5f5;
+      border: 1px solid #2a2a2a;
     }
-    .theme-minimal .accent { color: #000000; }
-    .theme-minimal .badge { background: #111827; color: #fff; }
+    .style-monochrome .handle-tag { color: #a1a1aa; font-weight: 600; }
+    .style-monochrome .divider { border-color: #27272a; }
 
-    .theme-emerald {
-      background: linear-gradient(145deg, #064e3b 0%, #022c22 100%);
-      color: #ecfdf5;
-      border: 1px solid #059669;
+    .style-warm-paper {
+      background-color: #fbf9f5;
+      color: #2c2a29;
+      border: 1px solid #e8e4dc;
     }
-    .theme-emerald .accent { color: #34d399; }
-    .theme-emerald .badge { background: #34d399; color: #064e3b; }
+    .style-warm-paper .handle-tag { color: #8c827a; font-weight: 600; }
+    .style-warm-paper .divider { border-color: #eae5dc; }
 
-    .theme-sunset {
-      background: linear-gradient(135deg, #2e1065 0%, #0f172a 100%);
+    .style-slate-clean {
+      background-color: #1e293b;
       color: #f8fafc;
-      border: 1px solid #7c3aed;
+      border: 1px solid #334155;
     }
-    .theme-sunset .accent { color: #f43f5e; }
-    .theme-sunset .badge { background: #f43f5e; color: #fff; }
+    .style-slate-clean .handle-tag { color: #94a3b8; font-weight: 600; }
+    .style-slate-clean .divider { border-color: #334155; }
 
-    /* أشكال ديكورية في الخلفية */
-    .decor-circle {
-      position: absolute;
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      filter: blur(40px);
-      opacity: 0.25;
-      pointer-events: none;
+    /* صندوق التحرير المباشر */
+    #editorArea:focus {
+      outline: none;
     }
   </style>
 </head>
-<body class="p-4 md:p-8 max-w-xl mx-auto pb-12">
+<body class="p-4 md:p-8 max-w-xl mx-auto pb-16">
 
   <!-- Header -->
-  <div class="flex items-center justify-between mb-6 border-b border-slate-800 pb-4">
-    <div class="flex items-center gap-2">
-      <div class="w-3 h-3 rounded-full bg-indigo-500 animate-pulse"></div>
-      <h1 class="text-xl font-black tracking-wider text-white">PERCEPTA CAROUSEL</h1>
-    </div>
-    <span class="bg-indigo-500/10 text-indigo-400 text-xs font-bold px-3 py-1 rounded-full border border-indigo-500/20">v2.0 Custom</span>
+  <div class="flex items-center justify-between mb-6 border-b border-zinc-800 pb-4">
+    <h1 class="text-lg font-bold tracking-tight text-white">CAROUSEL STUDIO</h1>
+    <span class="text-xs text-zinc-400 font-mono">v3.0 Editor</span>
   </div>
 
   <!-- عناصر التحكم -->
   <div class="space-y-4">
     
-    <!-- معرّف الحساب -->
-    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
-      <label class="block text-xs font-bold text-slate-400 mb-2">معرّف الحساب الخاص بك</label>
-      <input type="text" id="handleInput" value="@percepta_pr" 
-        class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm text-center text-indigo-400 font-bold focus:outline-none focus:border-indigo-500 transition">
+    <!-- 1. معرّف الحساب -->
+    <div class="bg-zinc-900/80 p-4 rounded-xl border border-zinc-800">
+      <label class="block text-xs font-bold text-zinc-400 mb-2">معرّف الحساب (يظهر في الهيدر والفوتر)</label>
+      <input type="text" id="handleInput" value="@Ammar.Albostani" oninput="renderSlides()"
+        class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-sm text-center text-zinc-200 font-bold focus:outline-none focus:border-zinc-500 transition">
     </div>
 
-    <!-- اختيار نوع الخط -->
-    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
-      <label class="block text-xs font-bold text-slate-400 mb-2">اختر الخط العربي</label>
-      <select id="fontSelect" onchange="renderSlides()" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
-        <option value="font-tajawal">خط تجوال (Tajawal) - هندسي وحديث</option>
-        <option value="font-cairo">خط القاهرة (Cairo) - بارز وقوي للمحتوى</option>
-        <option value="font-almarai">خط المراعي (Almarai) - ناعم واحترافي</option>
-      </select>
+    <!-- 2. الخطوط وحجم الخط -->
+    <div class="grid grid-cols-2 gap-3 bg-zinc-900/80 p-4 rounded-xl border border-zinc-800">
+      <div>
+        <label class="block text-xs font-bold text-zinc-400 mb-2">الخط المستعمل</label>
+        <select id="fontSelect" onchange="renderSlides()" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-2.5 text-xs text-zinc-200 focus:outline-none">
+          <option value="font-ibm">عربي: IBM Plex (حديث)</option>
+          <option value="font-cairo">عربي: القاهرة (بارز)</option>
+          <option value="font-tajawal">عربي: تجوال (هندسي)</option>
+          <option value="font-inter">إنجليزي/عربي: Inter</option>
+          <option value="font-playfair">إنجليزي: Playfair (كلاسيك)</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-zinc-400 mb-2">حجم خط المحتوى</label>
+        <select id="fontSizeSelect" onchange="renderSlides()" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-2.5 text-xs text-zinc-200 focus:outline-none">
+          <option value="text-xs">صغير (12px)</option>
+          <option value="text-sm" selected>متوسط (14px)</option>
+          <option value="text-base">كبير (16px)</option>
+          <option value="text-lg">كبير جداً (18px)</option>
+        </select>
+      </div>
     </div>
 
-    <!-- المحتوى -->
-    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
-      <label class="block text-xs font-bold text-slate-400 mb-2">محتوى الكاروسيل</label>
-      <textarea id="contentText" rows="6" 
-        class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition leading-relaxed"
-        placeholder="اكتب المحتوى هنا..."></textarea>
-      <p class="text-[11px] text-slate-500 mt-2">
-        💡 الفصل بين الشرائح: اترك سطراً فارغاً (Enter مرتين).
+    <!-- 3. محرر النصوص المصغر (Rich Text Editor) -->
+    <div class="bg-zinc-900/80 p-4 rounded-xl border border-zinc-800">
+      <label class="block text-xs font-bold text-zinc-400 mb-2">محتوى الكاروسيل وتنسيقه</label>
+      
+      <!-- شريط أدوات التنسيق -->
+      <div class="flex items-center gap-1 bg-zinc-950 p-1.5 rounded-t-lg border border-zinc-800 border-b-0 text-xs">
+        <button onclick="execCmd('bold')" title="عريض" class="px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 rounded font-bold">B</button>
+        <button onclick="execCmd('italic')" title="مائل" class="px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 rounded italic">I</button>
+        <button onclick="execCmd('underline')" title="تحته خط" class="px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 rounded underline">U</button>
+        <div class="h-4 w-[1px] bg-zinc-800 mx-1"></div>
+        <button onclick="execCmd('justifyRight')" title="يمين" class="px-2 py-1 bg-zinc-800 hover:bg-zinc-700 rounded">➡️</button>
+        <button onclick="execCmd('justifyCenter')" title="وسط" class="px-2 py-1 bg-zinc-800 hover:bg-zinc-700 rounded">↔️</button>
+        <button onclick="execCmd('justifyLeft')" title="يسار" class="px-2 py-1 bg-zinc-800 hover:bg-zinc-700 rounded">⬅️</button>
+      </div>
+
+      <!-- منطقة التحرير القابلة للتنسيق -->
+      <div id="editorArea" contenteditable="true" oninput="renderSlides()"
+        class="w-full min-h-[140px] bg-zinc-950 border border-zinc-800 rounded-b-lg p-3 text-sm text-zinc-200 focus:outline-none leading-relaxed overflow-y-auto">
+      </div>
+      
+      <p class="text-[11px] text-zinc-500 mt-2">
+        💡 اترك سطراً فارغاً (ضغط Enter مرتين) للفصل بين كل شريحة وأخرى.
       </p>
     </div>
 
-    <!-- الثيمات البصرية -->
-    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
-      <label class="block text-xs font-bold text-slate-400 mb-3">ستايل التصميم والألوان</label>
+    <!-- 4. ستايلات التصميم التحريري -->
+    <div class="bg-zinc-900/80 p-4 rounded-xl border border-zinc-800">
+      <label class="block text-xs font-bold text-zinc-400 mb-3">ستايل التصميم (Minimal Human Styles)</label>
       <div class="grid grid-cols-2 gap-2 text-xs font-bold">
-        <button onclick="setTheme('theme-cyber')" class="p-3 rounded-lg border border-slate-700 bg-slate-900 text-white flex items-center justify-center gap-2">
-          <span class="w-3 h-3 rounded-full bg-indigo-500"></span> سايبر ساكن
+        <button onclick="setStyle('style-swiss')" class="p-3 rounded-lg border border-zinc-300 bg-white text-black flex items-center justify-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-black"></span> سويسري نظيف (أبيض)
         </button>
-        <button onclick="setTheme('theme-minimal')" class="p-3 rounded-lg border border-slate-300 bg-white text-black flex items-center justify-center gap-2">
-          <span class="w-3 h-3 rounded-full bg-black"></span> مينيمليست هادئ
+        <button onclick="setStyle('style-monochrome')" class="p-3 rounded-lg border border-zinc-700 bg-zinc-900 text-white flex items-center justify-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-zinc-500"></span> مونوكروم دافئ
         </button>
-        <button onclick="setTheme('theme-emerald')" class="p-3 rounded-lg border border-emerald-600 bg-emerald-950 text-emerald-200 flex items-center justify-center gap-2">
-          <span class="w-3 h-3 rounded-full bg-emerald-400"></span> زمردي فاخر
+        <button onclick="setStyle('style-warm-paper')" class="p-3 rounded-lg border border-amber-200 bg-[#fbf9f5] text-amber-950 flex items-center justify-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-amber-700"></span> ورقي كلاسيكي
         </button>
-        <button onclick="setTheme('theme-sunset')" class="p-3 rounded-lg border border-purple-700 bg-purple-950 text-white flex items-center justify-center gap-2">
-          <span class="w-3 h-3 rounded-full bg-rose-500"></span> غروب التدرج
+        <button onclick="setStyle('style-slate-clean')" class="p-3 rounded-lg border border-slate-700 bg-slate-900 text-slate-100 flex items-center justify-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-slate-400"></span> رمادي كحلي
         </button>
       </div>
     </div>
 
-    <!-- زر التوليد -->
-    <button onclick="renderSlides()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-black py-3.5 rounded-xl transition shadow-lg shadow-indigo-600/20 text-base">
-      توليد الكاروسيل بالستايل الجديد ✨
+    <!-- زر تحديث -->
+    <button onclick="renderSlides()" class="w-full bg-zinc-100 hover:bg-white text-black font-bold py-3 rounded-xl transition text-sm">
+      تحديث التغييرات والمعاينة ⚡
     </button>
   </div>
 
   <!-- قسم المعاينة -->
   <div class="mt-8">
     <div class="flex items-center justify-between mb-4">
-      <span class="text-xs text-slate-400">المعاينة الحية</span>
-      <span id="slidesCount" class="text-xs font-bold text-indigo-400">0 شرائح</span>
+      <span class="text-xs text-zinc-400">المعاينة المباشرة</span>
+      <span id="slidesCount" class="text-xs font-bold text-zinc-300">0 شرائح</span>
     </div>
 
     <div id="slidesContainer" class="flex gap-4 overflow-x-auto pb-6 snap-x snap-mandatory">
@@ -150,80 +171,77 @@
 
   <!-- JavaScript -->
   <script>
-    const defaultContent = `كيف تبني هوية بصرية تلفت الانتباه؟
+    const defaultHTML = `الخط الجيد يرفع من قيمة محتواك البصري بنسبة 80% على شبكات التواصل.
 
-1. البساطة والتوازن:
-لا تملأ المساحة بكل التفاصيل، دع للتصميم متنفساً يريح العين.
+تجنب المبالغة في الزخارف، واعتمد التوازن والمساحات الفارغة المريحة لعين المشاهد.
 
-2. اختيار الخطوط المقروءة:
-الخط الواضح يضمن وصول فكرتك بسرعة على شاشات الموبايل.
+إذا أعجبك هذا المحتوى، احفظ البوست للرجوع إليه لاحقاً وشاركه مع صديق مهتم!`;
 
-إذا أعجبك هذا المحتوى، احفظ البوست وشاركه مع مهتمي التصميم!`;
+    let currentStyle = 'style-swiss';
 
-    let currentTheme = 'theme-cyber';
-    document.getElementById('contentText').value = defaultContent;
+    // تعيين المحتوى الافتراضي في المحرر
+    const editor = document.getElementById('editorArea');
+    editor.innerText = defaultHTML;
 
-    function setTheme(theme) {
-      currentTheme = theme;
+    // دالة تنفيذ أزرار التنسيق (Bold, Italic, Alignment)
+    function execCmd(command) {
+      document.execCommand(command, false, null);
+      renderSlides();
+    }
+
+    function setStyle(styleClass) {
+      currentStyle = styleClass;
       renderSlides();
     }
 
     function renderSlides() {
-      const handle = document.getElementById('handleInput').value || '@Percepta';
+      const handle = document.getElementById('handleInput').value || '@Username';
       const selectedFont = document.getElementById('fontSelect').value;
-      const rawText = document.getElementById('contentText').value;
+      const selectedFontSize = document.getElementById('fontSizeSelect').value;
       const container = document.getElementById('slidesContainer');
       
-      const slidesData = rawText.split(/\n\s*\n/).filter(slide => slide.trim() !== '');
+      // قراءة المحتوى المعالج وتقسيمه بناءً على أسطر الفصل
+      const contentHTML = editor.innerHTML;
+      
+      // تفكيك الشرائح بحسب التقسيمات
+      const rawSlides = contentHTML.split(/<div><br><\/div>|<div><div>|<br\s*\/?>\s*<br\s*\/?>|\n\s*\n/gi);
+      const slidesData = rawSlides.filter(slide => slide.replace(/<[^>]*>/g, '').trim() !== '');
+
       document.getElementById('slidesCount').innerText = `${slidesData.length} شرائح`;
       container.innerHTML = '';
 
-      slidesData.forEach((slideContent, index) => {
-        const isCover = index === 0;
+      slidesData.forEach((slideHTML, index) => {
         const totalSlides = slidesData.length;
         
         const slideWrapper = document.createElement('div');
         slideWrapper.className = 'flex-shrink-0 snap-center flex flex-col items-center gap-3';
         
         slideWrapper.innerHTML = `
-          <!-- تصميم الشريحة باشتراط أبعاد 1:1 وأشكال هندسية -->
-          <div id="slide-${index}" class="${currentTheme} ${selectedFont} w-[300px] h-[300px] p-6 rounded-2xl flex flex-col justify-between shadow-xl relative overflow-hidden transition-all">
+          <!-- تصميم الشريحة المربعة 1:1 بدون تعقيدات ذكاء اصطناعي -->
+          <div id="slide-${index}" class="${currentStyle} ${selectedFont} w-[300px] h-[300px] p-6 rounded-xl flex flex-col justify-between relative overflow-hidden transition-all">
             
-            <!-- دوائر خلفية ديكورية -->
-            <div class="decor-circle bg-indigo-500 top-0 right-0"></div>
-            <div class="decor-circle bg-rose-500 bottom-0 left-0"></div>
-
             <!-- Header الشريحة -->
-            <div class="flex justify-between items-center text-[11px] font-bold z-10">
-              <span class="opacity-80 flex items-center gap-1">
-                <svg class="w-3 h-3 accent fill-current" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
-                ${handle}
-              </span>
-              <span class="badge px-2 py-0.5 rounded-full text-[10px] font-black">${index + 1}/${totalSlides}</span>
+            <div class="flex justify-between items-center text-[10px] handle-tag">
+              <span>${handle}</span>
+              <span class="opacity-60">${index + 1}/${totalSlides}</span>
             </div>
 
-            <!-- Body المحتوى -->
-            <div class="my-auto z-10">
-              ${isCover ? `
-                <div class="inline-flex items-center gap-1 text-[10px] font-bold accent mb-2">
-                  <span>اسحب لمعرفة المزيد</span>
-                  <svg class="w-3 h-3 fill-current rotate-180" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-                </div>
-              ` : ''}
-              <p class="${isCover ? 'text-lg font-black leading-snug' : 'text-xs leading-relaxed opacity-90'} whitespace-pre-line">
-                ${slideContent}
-              </p>
+            <!-- Body النص بمرونة وبدون تصغير للكلمة الأولى -->
+            <div class="my-auto w-full">
+              <div class="${selectedFontSize} leading-relaxed font-normal">
+                ${slideHTML}
+              </div>
             </div>
 
-            <!-- Footer الشريحة -->
-            <div class="flex justify-between items-center text-[9px] opacity-60 font-bold border-t border-current/10 pt-2 z-10">
-              <span>Percepta Studio</span>
-              <span>${isCover ? '• Swipe ➔' : 'Save post 📌'}</span>
+            <!-- Footer الشريحة يحتوي اسم الحساب المعين فقط -->
+            <div class="flex justify-between items-center text-[10px] handle-tag pt-3 border-t divider">
+              <span>${handle}</span>
+              <span class="opacity-50">Swipe ➔</span>
             </div>
           </div>
 
           <!-- زر التحميل -->
-          <button onclick="downloadSlide(${index})" class="w-full bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 text-xs font-bold py-2 px-4 rounded-xl flex items-center justify-center gap-2 transition">
+          <button onclick="downloadSlide(${index})" class="w-full bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 text-xs font-bold py-2 px-4 rounded-lg flex items-center justify-center gap-2 transition">
             تحميل الشريحة (${index + 1}) 📥
           </button>
         `;
@@ -236,12 +254,13 @@
       const slideElement = document.getElementById(`slide-${index}`);
       html2canvas(slideElement, { scale: 3, useCORS: true }).then(canvas => {
         const link = document.createElement('a');
-        link.download = `percepta-slide-${index + 1}.png`;
+        link.download = `slide-${index + 1}.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
       });
     }
 
+    // التوليد الأولي
     renderSlides();
   </script>
 </body>
